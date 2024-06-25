@@ -1,0 +1,54 @@
+:root {
+    --primary-color: #2d6a4f; /* Warna hijau tua seperti hutan */
+    --secondary-color: #dda15e; /* Warna coklat muda seperti batu */
+    --black: #000000; /* Tetap hitam */
+    --white: #ffffff; /* Tetap putih */
+    --secondary-text: #abccc1;
+    --accent-color: #6b705c; /* Warna hijau kecoklatan untuk aksen */
+    --hover-color: #f0efeb; /* Warna krem muda */
+    --primary-bg: #e9edc9; /* Warna hijau muda untuk latar belakang utama */
+    --secondary-bg: #ffe8d6; /* Warna krem untuk latar belakang sekunder */
+    --warning: #e76f51; /* Warna oranye kemerahan untuk peringatan */
+    --success: #2a9d8f; /* Warna hijau kebiruan untuk sukses */
+    --sidebar-bg: #264653; /* Warna biru tua seperti langit malam */
+    --dangger: #e63946; /* Warna merah terang untuk bahaya */
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.news-section{
+    padding: 38px 72px;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 12px;
+    background-color: var(--secondary-text);
+    color: white;
+}
+
+.head {
+    font-size: 44px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.sub-head {
+    /* color: var(--accent-color); */
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.content{
+    margin-top: 44px;
+    text-align: center;
+    max-width: 60%;
+    color: var(--primary-color);
+}

@@ -1,0 +1,85 @@
+:root {
+    --primary-color: #48aa7e; /* Warna hijau tua seperti hutan */
+    --secondary-color: #dda15e; /* Warna coklat muda seperti batu */
+    --black: #000000; /* Tetap hitam */
+    --white: #ffffff; /* Tetap putih */
+    --secondary-text: #abccc1;
+    --accent-color: #6b705c; /* Warna hijau kecoklatan untuk aksen */
+    --hover-color: #f0efeb; /* Warna krem muda */
+    --primary-bg: #e9edc9; /* Warna hijau muda untuk latar belakang utama */
+    --secondary-bg: #ffe8d6; /* Warna krem untuk latar belakang sekunder */
+    --warning: #e76f51; /* Warna oranye kemerahan untuk peringatan */
+    --success: #2a9d8f; /* Warna hijau kebiruan untuk sukses */
+    --sidebar-bg: #264653; /* Warna biru tua seperti langit malam */
+    --dangger: #e63946; /* Warna merah terang untuk bahaya */
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: var(--secondary-text);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.title {
+    text-align: center;
+}
+
+.form-container{
+    width: 450px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 26px;
+    backdrop-filter: blur(5px);
+    border-radius: 5px;
+    color: white;
+    border: solid 1px white;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.field-container{
+    display: grid;
+    grid-template-columns: 49% 49%;
+    justify-content: space-between;
+}
+
+.field > input {
+    padding: 6px 12px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+
+.field > input:focus {
+    outline: 2px solid var(--primary-color);
+}
+
+.submit{
+    margin-top: 16px;
+    padding: 8px 6px;
+    color: var(--white);
+    border-radius: 5px;
+    border: none;
+    background-color: var(--primary-color);
+}
+

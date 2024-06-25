@@ -1,0 +1,57 @@
+:root {
+    --primary-color: #2d6a4f; /* Warna hijau tua seperti hutan */
+    --secondary-color: #dda15e; /* Warna coklat muda seperti batu */
+    --black: #000000; /* Tetap hitam */
+    --white: #ffffff; /* Tetap putih */
+    --secondary-text: #abccc1;
+    --accent-color: #6b705c; /* Warna hijau kecoklatan untuk aksen */
+    --hover-color: #f0efeb; /* Warna krem muda */
+    --primary-bg: #e9edc9; /* Warna hijau muda untuk latar belakang utama */
+    --secondary-bg: #ffe8d6; /* Warna krem untuk latar belakang sekunder */
+    --warning: #e76f51; /* Warna oranye kemerahan untuk peringatan */
+    --success: #2a9d8f; /* Warna hijau kebiruan untuk sukses */
+    --sidebar-bg: #264653; /* Warna biru tua seperti langit malam */
+    --dangger: #e63946; /* Warna merah terang untuk bahaya */
+}
+
+.notif {
+    position: absolute;
+    top: 12px;
+    transform: translateX(50%);
+    right: 50%;
+    width: fit-content;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background-color: var(--accent-color);
+    z-index: 999;
+    color: white;
+}
+
+
+.notif > div > button {
+    border: none;
+    background-color: transparent;
+    height: fit-content;
+    color: white;
+    margin-top: 3px;
+    margin-left: 12px;
+    z-index: 999;
+}
+
+.notif > div > p {
+    max-width: 140px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-align: center;
+}
+
+.notif-container{
+    display: flex;
+    gap: 9px;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
