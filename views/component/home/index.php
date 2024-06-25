@@ -11,35 +11,34 @@
 <body style="position: relative;">
 
     <?php include  __DIR__ . "/components/navbar.php" ?>
-    
-    
+
+
     <!-- Main section -->
     <section class="hero" id="hero" style="background-image: url(/img/hero-bg.jpg); background-repeat: no-repeat; background-size: cover;">
         <div class="hero-left">
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae, quae sequi eveniet corporis beatae incidunt ipsum maiores veniam doloribus, ea quis. Quis suscipit repellendus velit, itaque sed quos ullam inventore hic. Vero, ea sint enim veniam quis at beatae, tempora debitis, inventore architecto est!</p>
+            <p>Unit Kegiatan Mahasiswa (UKM) <?= $profile["nama"] ?> adalah organisasi yang berfokus pada kegiatan-kegiatan yang berhubungan dengan lingkungan dan kepedulian mahasiswa terhadap alam. UKM Mapala mencakup berbagai kegiatan yang membantu meningkatkan kesadaran dan kepedulian mahasiswa terhadap keseimbangan alam, melestarikan lingkungan, dan memberikan kesempatan bagi mahasiswa dalam mengeksplorasi keindahan alam dan sumber dayanya.
+            </p>
         </div>
         <h1 class="hero-title"><?= $profile["nama"] ?></h1>
     </section>
- 
-    
+
+
     <!-- Galeri section -->
     <section id="galeri" class="event-container">
         <img src="/img/topography.jpg" class="event-bg-img" alt="">
         <img src="/img/topography.jpg" class="event-bg-img-2" alt="">
         <div class="event-container-left">
-            <div>
-                <img class="event-img-1" src="/img/galery-1.jpg" style="object-fit: cover;" alt="">
-                <img class="event-img-2" src="/img/galery-2.jpg" style="object-fit: cover;" alt="">
-                <img class="event-img-3" src="/img/galery-3.jpg" style="object-fit: cover;" alt="">
-                <img class="event-img-4" src="/img/galery-4.jpg" style="object-fit: cover;" alt="">
-                <img class="event-img-5" src="/img/galery-5.jpg" style="object-fit: cover;" alt="">
-                <img class="event-img-6" src="/img/galery-3.jpg" style="object-fit: cover;" alt="">
-            </div>
+            <img class="event-img-1" src="/img/galery-1.jpg" style="object-fit: cover;" alt="">
+            <img class="event-img-2" src="/img/galery-2.jpg" style="object-fit: cover;" alt="">
+            <img class="event-img-3" src="/img/galery-3.jpg" style="object-fit: cover;" alt="">
+            <img class="event-img-4" src="/img/galery-4.jpg" style="object-fit: cover;" alt="">
+            <img class="event-img-5" src="/img/galery-5.jpg" style="object-fit: cover;" alt="">
+            <img class="event-img-6" src="/img/galery-3.jpg" style="object-fit: cover;" alt="">
         </div>
         <div class="event-container-right" style="background-image: url(\img\topography.jpg);">
             <h1 style="color: var(--primary-color);">Galeri UKM</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate itaque minima recusandae, a asperiores atque, quae odit provident adipisci aspernatur officiis dolorem perferendis, nam laborum. Vero non minus inventore omnis neque! Cupiditate minus fugit laborum voluptatum consectetur facilis illo illum est, rerum quo?</p>
-            <h3 style="margin-top: 4px; text-align: right;">Lorem ipsum dolor sit amet.!</h3>
+            <p>UKM Mapala juga memainkan peran penting dalam membangun solidaritas dan persahabatan di antara anggotanya. Kebersamaan dalam menghadapi tantangan alam membentuk ikatan yang kuat, menciptakan lingkungan yang mendukung untuk pertumbuhan personal dan sosial. Setiap perjalanan petualangan bukan hanya tentang melewati rintangan, tetapi juga tentang membangun tim yang solid dan saling mendukung. </p>
+            <h3 style="margin-top: 4px;">Mulai petualangan bersama kami!</h3>
             <a href="/auth/register" class="gabung-btn">Gabung sekarang!</a>
         </div>
     </section>
@@ -47,12 +46,10 @@
 
     <!-- Tentang section -->
     <section class="about-container" id="tentang">
-        <!-- <img src="/img/kayu.jpg" style="position: absolute; top: 0; height: auto; left: 0; right: 0; width: 100%; bottom: 0; z-index: 1; opacity: .2;" alt=""> -->
         <div class="about-content">
             <h1>Tentang Kami</h1>
-            <h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit!</h3>
-
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id vel qui ipsum sed dicta veniam molestiae quia cum. Beatae perspiciatis velit debitis praesentium molestias quia possimus atque vitae aspernatur quos nobis consequatur in adipisci rem, modi magni illum ipsa? Cumque voluptate deserunt iure. Sit.</p>
+            <h3><?= $profile["nama"] ?></h3>
+            <p>UKM Mapala memberikan kontribusi besar dalam membentuk generasi mahasiswa yang berani, peduli lingkungan, dan siap menghadapi berbagai tantangan dalam kehidupan. Melalui perpaduan petualangan, keberlanjutan, dan kebersamaan, UKM Mapala membantu meningkatkan kesadaran akan pelestarian lingkungan dan mengajarkan keberanian dan ketangguhan fisik, serta meningkatkan rasa tanggung jawab terhadap alam</p>
         </div>
         <img class="about-img" style="object-fit: cover; z-index: 10;" src="/img/tentang.jpg" alt="">
     </section>
@@ -81,7 +78,7 @@
         </div>
     </section>
 
-    
+
     <?php include __DIR__ . "/components/footer.php" ?>
 </body>
 
