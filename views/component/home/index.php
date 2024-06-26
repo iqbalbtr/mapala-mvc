@@ -16,7 +16,7 @@
     <!-- Main section -->
     <section class="hero" id="hero" style="background-image: url(/img/hero-bg.jpg); background-repeat: no-repeat; background-size: cover;">
         <div class="hero-left">
-            <p>Unit Kegiatan Mahasiswa (UKM) <?= $profile["nama"] ?> adalah organisasi yang berfokus pada kegiatan-kegiatan yang berhubungan dengan lingkungan dan kepedulian mahasiswa terhadap alam. UKM Mapala mencakup berbagai kegiatan yang membantu meningkatkan kesadaran dan kepedulian mahasiswa terhadap keseimbangan alam, melestarikan lingkungan, dan memberikan kesempatan bagi mahasiswa dalam mengeksplorasi keindahan alam dan sumber dayanya.
+            <p>Unit Kegiatan Mahasiswa (UKM) <?= $profile["nama"] ?> adalah organisasi yang berfokus pada kegiatan-kegiatan yang berhubungan dengan lingkungan dan kepedulian mahasiswa terhadap alam. UKM <?= $profile["nama"] ?> mencakup berbagai kegiatan yang membantu meningkatkan kesadaran dan kepedulian mahasiswa terhadap keseimbangan alam, melestarikan lingkungan, dan memberikan kesempatan bagi mahasiswa dalam mengeksplorasi keindahan alam dan sumber dayanya.
             </p>
         </div>
         <h1 class="hero-title"><?= $profile["nama"] ?></h1>
@@ -37,7 +37,7 @@
         </div>
         <div class="event-container-right" style="background-image: url(\img\topography.jpg);">
             <h1 style="color: var(--primary-color);">Galeri UKM</h1>
-            <p>UKM Mapala juga memainkan peran penting dalam membangun solidaritas dan persahabatan di antara anggotanya. Kebersamaan dalam menghadapi tantangan alam membentuk ikatan yang kuat, menciptakan lingkungan yang mendukung untuk pertumbuhan personal dan sosial. Setiap perjalanan petualangan bukan hanya tentang melewati rintangan, tetapi juga tentang membangun tim yang solid dan saling mendukung. </p>
+            <p>UKM <?= $profile["nama"] ?> juga memainkan peran penting dalam membangun solidaritas dan persahabatan di antara anggotanya. Kebersamaan dalam menghadapi tantangan alam membentuk ikatan yang kuat, menciptakan lingkungan yang mendukung untuk pertumbuhan personal dan sosial. Setiap perjalanan petualangan bukan hanya tentang melewati rintangan, tetapi juga tentang membangun tim yang solid dan saling mendukung. </p>
             <h3 style="margin-top: 4px;">Mulai petualangan bersama kami!</h3>
             <a href="/auth/register" class="gabung-btn">Gabung sekarang!</a>
         </div>
@@ -49,7 +49,7 @@
         <div class="about-content">
             <h1>Tentang Kami</h1>
             <h3><?= $profile["nama"] ?></h3>
-            <p>UKM Mapala memberikan kontribusi besar dalam membentuk generasi mahasiswa yang berani, peduli lingkungan, dan siap menghadapi berbagai tantangan dalam kehidupan. Melalui perpaduan petualangan, keberlanjutan, dan kebersamaan, UKM Mapala membantu meningkatkan kesadaran akan pelestarian lingkungan dan mengajarkan keberanian dan ketangguhan fisik, serta meningkatkan rasa tanggung jawab terhadap alam</p>
+            <p>UKM <?= $profile["nama"] ?> memberikan kontribusi besar dalam membentuk generasi mahasiswa yang berani, peduli lingkungan, dan siap menghadapi berbagai tantangan dalam kehidupan. Melalui perpaduan petualangan, keberlanjutan, dan kebersamaan, UKM <?= $profile["nama"] ?> membantu meningkatkan kesadaran akan pelestarian lingkungan dan mengajarkan keberanian dan ketangguhan fisik, serta meningkatkan rasa tanggung jawab terhadap alam</p>
         </div>
         <img class="about-img" style="object-fit: cover; z-index: 10;" src="/img/tentang.jpg" alt="">
     </section>

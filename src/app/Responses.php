@@ -26,4 +26,11 @@ class Responses
         header("Location: " . $path . $msg);
         exit;
     }
+
+    public static function ErrorPage(
+        int $status,
+        string $message
+    ){
+        return include __DIR__ . "/../../views/component/Error.php";
+    }
 }

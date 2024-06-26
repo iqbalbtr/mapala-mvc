@@ -2,6 +2,7 @@
 
 namespace Tugas\UkmProject\app\controller;
 
+use Exception;
 use Tugas\UkmProject\app\Database;
 use Tugas\UkmProject\app\models\RoleModel;
 use Tugas\UkmProject\app\Responses;
@@ -20,67 +21,65 @@ class RoleController
 
     function create()
     {
-        $nama = $_POST["nama"];
-        $deskripsi = $_POST["deskripsi"];
+        try {
+            $nama = $_POST["nama"];
+            $deskripsi = $_POST["deskripsi"];
 
-        $result = $this->role_Service->create($nama, $deskripsi);
+            $result = $this->role_Service->create($nama, $deskripsi);
 
-        if($result["status"]){
             return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
-        } else {
-            return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
+        } catch (Exception $e) {
+            return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $e->getMessage(), "/admin");
         }
     }
 
     function getById()
     {
-        $id = $_GET["id"];
-        $result = $this->role_Service->getById($id);
+        try {
+            $id = $_GET["id"];
+            $result = $this->role_Service->getById($id);
 
-        if($result["status"]){
             return Responses::Res(true, "", $result)["data"];
-        } else {
-            return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
+        } catch (Exception $e) {
+            return Responses::Res(false, $e->getMessage(), $result);
         }
     }
 
     function delete()
     {
-        $id = $_GET["id"];
+        try {
+            $id = $_GET["id"];
 
-        $result = $this->role_Service->delete($id);
+            $result = $this->role_Service->delete($id);
 
-        if($result["status"]){
             return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
-        } else {
-            return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
-        }
-}
-
-    function update()
-    {
-        $nama = $_POST["nama"];
-        $deskripsi = $_POST["deskripsi"];
-        $id = $_POST["id"];
-
-        $result = $this->role_Service->update($id, $nama, $deskripsi);
-
-        if ($result["status"]) {
-            Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
-        } else {
-            Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
+        } catch (Exception $e) {
+            return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $e->getMessage(), "/admin");
         }
     }
 
-    function getAll() {
-        
-        $result = $this->role_Service->getSelect();
-        
-        if($result["status"]){
-            return Responses::Res(true, "", $result)["data"];
-        } else {
-            return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
-        }
+    function update()
+    {
+        try {
+            $nama = $_POST["nama"];
+            $deskripsi = $_POST["deskripsi"];
+            $id = $_POST["id"];
 
+            $result = $this->role_Service->update($id, $nama, $deskripsi);
+
+            Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
+        } catch (Exception $e) {
+            Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $e->getMessage(), "/admin");
+        }
+    }
+
+    function getAll()
+    {
+        try {
+            $result = $this->role_Service->getSelect();
+            return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $result["message"], "/admin");
+        } catch (Exception $e) {
+            return Responses::Redirect("?page=anggota&tipe=master-role&pesan=" . $e->getMessage(), "/admin");
+        }
     }
 }

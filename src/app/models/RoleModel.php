@@ -2,6 +2,7 @@
 
 namespace Tugas\UkmProject\app\models;
 
+use Exception;
 use mysqli;
 use Tugas\UkmProject\app\Responses;
 
@@ -22,10 +23,8 @@ class RoleModel
     ) {
 
         if (in_array($req_role, $this->protect_role)) {
-            return Responses::Res(false, "Role dilindungi");
+            throw new Exception("Role dilindungi");
         }
-
-        return Responses::Res(true, "");
     }
 
 
@@ -37,7 +36,7 @@ class RoleModel
         $exist = $this->db->query("SELECT * FROM tb_role WHERE nama='$nama'");
 
         if ($exist->num_rows >= 1) {
-            return Responses::Res(false, "Role telah ada");
+            throw new Exception("Role telah ada");
         }
 
         $stmt = $this->db->prepare("INSERT INTO tb_role (nama, deskripsi) VALUES (?, ?)");
@@ -46,7 +45,7 @@ class RoleModel
         if ($stmt->execute()) {
             return Responses::Res(true, "Berhasil menambahkan role baru");
         } else {
-            return Responses::Res(false, "Gagal menambahkan role baru");
+            throw new Exception("Gagal menambahkan role baru");
         }
     }
 
@@ -56,17 +55,12 @@ class RoleModel
         $exist = $this->db->query("SELECT * FROM tb_role WHERE id=$id");
 
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "Role tidak ditemukan");
+            throw new Exception("Role tidak ditemukan");
         }
 
         $role = $exist->fetch_assoc();
 
-        $protect = $this->protect_role($role["nama"]);
-
-
-        if (!$protect["status"]) {
-            return $protect;
-        }
+        $this->protect_role($role["nama"]);
 
         $this->db->query("DELETE FROM tb_role WHERE id=$id");
 
@@ -83,14 +77,9 @@ class RoleModel
 
         $role = $exist->fetch_assoc();
 
-        $protect = $this->protect_role($role["nama"]);
-
-        if (!$protect["status"]) {
-            return $protect;
-        }
-
+        $this->protect_role($role["nama"]);
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "Role tidak ditemukan");
+            throw new Exception("Role tidak ditemukan");
         }
 
         $stmt = $this->db->prepare("UPDATE tb_role SET nama = ?, deskripsi = ? WHERE id = ?");
@@ -99,7 +88,7 @@ class RoleModel
         if ($stmt->execute()) {
             return Responses::Res(true, "Berhasil mengupdate role");
         } else {
-            return Responses::Res(false, "Gagal mengupdate role");
+            throw new Exception("Gagal mengupdate role");
         }
     }
 
@@ -108,7 +97,7 @@ class RoleModel
     ) {
         $exist = $this->db->query("SELECT * FROM tb_role WHERE id=$id");
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "Role tidak ditemukan");
+            throw new Exception("Role tidak ditemukan");
         }
 
         return Responses::Res(true, "", $exist->fetch_assoc());

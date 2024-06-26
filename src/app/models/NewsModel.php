@@ -2,6 +2,7 @@
 
 namespace Tugas\UkmProject\app\models;
 
+use Exception;
 use Tugas\UkmProject\app\Responses;
 use mysqli;
 
@@ -21,13 +22,23 @@ class NewsModel
         string $content,
         string $dibuat
     ) {
+
+        if (
+            empty($head) ||
+            empty($sub_head) ||
+            empty($content) ||
+            empty($dibuat)
+        ) {
+            Responses::Redirect("?page=berita&pesan=Isi kurang lengkap", "/admin");
+        }
+
         $stmt = $this->db->prepare("INSERT INTO tb_berita (head, sub_head, content, dibuat) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $head, $sub_head, $content, $dibuat);
         
         if ($stmt->execute()) {
             return Responses::Res(true, "Berita baru ditambahkan");
         } else {
-            return Responses::Res(false, "Gagal menambahkan berita baru");
+            throw new Exception("Gagal menambahkan berita baru");
         }
     }
 
@@ -35,10 +46,14 @@ class NewsModel
         int $id
     ) {
 
+        if (!$id) {
+            throw new Exception("Id tidak ada");
+        }
+
         $exist = $this->db->query("SELECT * FROM tb_berita WHERE id=$id");
 
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "Berita tidak ditemukan");
+            throw new Exception("Berita tidak ditemukan");
         }
 
         $result = $this->db->query("SELECT * FROM tb_berita WHERE id=$id");
@@ -53,10 +68,20 @@ class NewsModel
         string $content,
         string $dibuat
     ) {
+
+        if (
+            empty($head) ||
+            empty($sub_head) ||
+            empty($content) ||
+            empty($dibuat)
+        ) {
+            throw new Exception("Data tidak lengkap");
+        }
+
         $exist = $this->db->query("SELECT * FROM tb_berita WHERE id=$id");
 
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "Berita tidak ditemukan");
+            throw new Exception("Berita tidak ditemukan");
         }
 
         $stmt = $this->db->prepare("UPDATE tb_berita SET head=?, sub_head=?, content=?, dibuat=? WHERE id=?");
@@ -65,22 +90,27 @@ class NewsModel
         if ($stmt->execute()) {
             return Responses::Res(true, "Sukses");
         } else {
-            return Responses::Res(false, "Gagal memperbarui berita");
+            throw new Exception("Error mengubah berita");
         }
     }
 
     function delete(
         int $id
     ) {
+
+        if (empty($id)) {
+            throw new Exception("?page=berita&pesan=Id tidak ada", "/admin");
+        }
+
         $exist = $this->db->query("SELECT * FROM tb_berita WHERE id=$id");
 
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "Berita tidak ditemukan");
+            throw new Exception("Berita tidak ditemukan");
         }
 
         $this->db->query("DELETE FROM tb_berita WHERE id=$id");
 
-        return Responses::Res(false, "Berita berhasil di hapus");
+        return Responses::res(false, "Berita berhasil di hapus");
     }
     function getAll($page)
     {

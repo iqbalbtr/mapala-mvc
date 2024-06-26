@@ -4,6 +4,7 @@ namespace Tugas\UkmProject\app;
 
 class Middlewares
 {
+    private static array $auth_path = ["/api", "/admin", "/auth"];
 
     public static function set(
         string $funtion,
@@ -16,29 +17,37 @@ class Middlewares
         );
     }
 
-    public static function use(
-        string $path,
-        string $function
-    ) {
-
+    public static function use(string $path, string $function)
+    {
         $session_path = isset($_SERVER["PATH_INFO"]) ? $_SERVER["PATH_INFO"] : "/";
 
         if (strpos($session_path, $path) === 0) {
             $middlewares = new Middlewares();
-            $function = $function;
             $middlewares->$function();
-        }
+        } 
     }
-
 
     public static function auth()
     {
-        if (empty($_SESSION["nim"]) || empty($_SESSION["login"])) {
+        $path = $_SERVER["PATH_INFO"];
+
+        if ($path === '/auth/login' || $path === '/auth/register') {
+            return;
+        }
+
+        if (empty($_SESSION["login"])) {
             header("Location: /auth/login");
+            exit;
+        } else {
+            foreach (self::$auth_path as $current) {
+                if (strpos($path, $current) !== false) {
+                    return;
+                }
+            }
+            header("Location: /admin");
             exit;
         }
     }
-
     public static function role(array $roles)
     {
 

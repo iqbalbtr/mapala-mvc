@@ -2,7 +2,7 @@
 
 namespace Tugas\UkmProject\app\models;
 
-use Tugas\UkmProject\app\Database;
+use Exception;
 use mysqli;
 use Tugas\UkmProject\app\Responses;
 
@@ -21,10 +21,8 @@ class UserModel
     function protect_user($user)
     {
         if (in_array($user, $this->protect_user)) {
-            return Responses::Res(false, "User dilindungi");
-        } else {
-            return Responses::Res(true, "");
-        }
+            throw new Exception("User dilindungi");
+        } 
     }
 
     function login(
@@ -32,16 +30,20 @@ class UserModel
         string $password
     ) {
 
+        if (empty($nim) || empty($password)) {
+            throw new Exception("Data tidak lengkap");
+        }
+
         $user_exist = $this->db->query("SELECT tb_user.id, tb_user_info.nama, tb_user.nim , tb_user.password, tb_role.nama AS role FROM tb_user INNER JOIN tb_role ON tb_role.id = tb_user.role_id INNER JOIN tb_user_info ON tb_user.user_info_id = tb_user_info.id WHERE nim=$nim");
 
         if (!$user_exist->num_rows === 0) {
-            return Responses::Res(false, "User tidak ditemukan");
+            throw new Exception("User tidak ditemukan");
         }
 
         $result = $user_exist->fetch_assoc();
 
         if (!password_verify($password, $result["password"])) {
-            return Responses::Res(false, "Kata sandi atau username salah");
+            throw new Exception("Kata sandi atau username salah");
         }
 
         return Responses::Res(true, "Login telah berhasil", $result);
@@ -56,12 +58,18 @@ class UserModel
         string $password
     ) {
 
+        
+        if (empty($nim) || empty($password) || empty($name) || empty($address)) {
+            throw new Exception("Data tidak lengkap");
+        }
+
+
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
         $user_exist = $this->db->query("SELECT * FROM tb_user WHERE nim=$nim");
 
         if ($user_exist->num_rows >= 1) {
-            return Responses::Res(false, "User telah terdaftar");
+            throw new Exception("User telah terdaftar");
         }
 
         $stmt_info = $this->db->prepare("INSERT INTO tb_user_info (nama, alamat, no_hp, tgl_lahir) VALUES (?, ?, ?, ?)");
@@ -76,10 +84,10 @@ class UserModel
             if ($stmt_user->execute()) {
                 return Responses::Res(true, "User telah dibuat");
             } else {
-                return Responses::Res(false, "Gagal menambahkan user baru");
+                throw new Exception("Gagal menambahkan user baru");
             }
         } else {
-            return Responses::Res(false, "Gagal menambahkan user info");
+            throw new Exception("Gagal menambahkan user info");
         }
     }
 
@@ -117,10 +125,14 @@ class UserModel
         int $id
     ) {
 
+        if (empty($id)) {
+            throw new Exception("Id tidak ada");
+        }
+
         $result = $this->db->query("SELECT tb_user.nim, tb_user.role_id, tb_user.status, tb_role.nama AS role, tb_user.id, tb_user.status, tb_user_info.nama, tb_user_info.alamat, tb_user_info.no_hp, tb_user_info.tgl_lahir FROM tb_user INNER JOIN tb_user_info ON tb_user.user_info_id = tb_user_info.id INNER JOIN tb_role ON tb_user.role_id = tb_role.id WHERE tb_user.id=$id");
 
         if ($result->num_rows <= 0) {
-            return Responses::Res(false, "User tidak ditemukan");
+            throw new Exception("User tidak ditemukan");
         }
 
         return Responses::Res(true, "", $result->fetch_assoc());
@@ -129,12 +141,18 @@ class UserModel
     function deleteUserById(
         int $id
     ) {
+        
+        if (!$id) {
+            throw new Exception("Id tidak ada");
+        }
+
+
         $exist = $this->db->query("SELECT * FROM tb_user WHERE id=$id");
 
         $nim = $exist->fetch_assoc()["nim"];
 
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "User tidak ditemukan");
+            throw new Exception("User tidak ditemukan");
         }
 
         $protect = $this->protect_user($nim);
@@ -145,7 +163,7 @@ class UserModel
 
         $this->db->query("DELETE FROM tb_user WHERE id=$id");
 
-        return Responses::Res(false, "Berhasil menghapus user");
+        throw new Exception("Berhasil menghapus user");
     }
 
     function updateUser(
@@ -157,20 +175,28 @@ class UserModel
         string $role,
         string $status
     ) {
+
+        
+        if (
+            empty($nama) ||
+            empty($alamat) ||
+            empty($no_hp) ||
+            empty($tgl_lahir) ||
+            empty($status)
+        ) {
+            throw new Exception("Data tidak lengkap");
+        }
+
         $exist = $this->db->query("SELECT * FROM tb_user WHERE id=$id");
 
         $user = $exist->fetch_assoc();
         $user_info_id = $user["user_info_id"];
         $nim = $user["nim"];
 
-        $protect = $this->protect_user($nim);
-
-        if ($protect["status"] === false) {
-            return $protect;
-        }
+        $this->protect_user($nim);
 
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "User tidak ditemukan");
+            throw new Exception("User tidak ditemukan");
         }
 
         $stmt_info = $this->db->prepare("UPDATE tb_user_info SET nama = ?, tgl_lahir = ?, no_hp = ?, alamat = ? WHERE id = ?");
@@ -183,10 +209,10 @@ class UserModel
             if ($stmt_user->execute()) {
                 return Responses::Res(true, "Suksess");
             } else {
-                return Responses::Res(false, "Gagal mengupdate user");
+                throw new Exception("Gagal mengupdate user");
             }
         } else {
-            return Responses::Res(false, "Gagal mengupdate user info");
+            throw new Exception("Gagal mengupdate user info");
         }
     }
 
@@ -198,7 +224,7 @@ class UserModel
         $exist = $this->db->query("SELECT COUNT(*) FROM tb_user where id=$id");
 
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "User tidak diemukan");
+            throw new Exception("User tidak diemukan");
         }
 
         $result = $exist = $this->db->query("SELECT * FROM tb_user where id=$id");
@@ -212,10 +238,10 @@ class UserModel
             if ($stmt->execute()) {
                 return Responses::Res(true, "Berhasil mengubah sandi");
             } else {
-                return Responses::Res(false, "Gagal mengubah sandi");
+                throw new Exception("Gagal mengubah sandi");
             }
         } else {
-            return Responses::Res(false, "Sandi atau nim salah");
+            throw new Exception("Sandi atau nim salah");
         }
     }
 
@@ -251,7 +277,7 @@ class UserModel
         $nim = $user["nim"];
 
         if ($exist->num_rows <= 0) {
-            return Responses::Res(false, "User tidak ditemukan");
+            throw new Exception("User tidak ditemukan");
         }
 
         $protect = $this->protect_user($nim);
@@ -266,7 +292,7 @@ class UserModel
         if ($stmt->execute()) {
             return Responses::Res(true, "Berhasil update");
         } else {
-            return Responses::Res(false, "Gagal update");
+            throw new Exception("Gagal update");
         }
     }
 }

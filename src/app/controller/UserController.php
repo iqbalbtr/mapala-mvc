@@ -2,6 +2,7 @@
 
 namespace Tugas\UkmProject\app\controller;
 
+use Exception;
 use Tugas\UkmProject\app\Database;
 use Tugas\UkmProject\app\models\UserModel;
 use Tugas\UkmProject\app\Responses;
@@ -18,102 +19,83 @@ class UserController
 
     function delete()
     {
+        try {
+            $id = $_GET["id"];
+            $result = $this->user_service->deleteUserById($id);
 
-        $id = $_GET["id"];
-
-        if (!$id) {
-            Responses::Redirect('?pesan=Id tidak ditemukan', "/admin");
-        }
-
-        $result = $this->user_service->deleteUserById($id);
-
-        if ($result["status"]) {
-            Responses::Redirect('?page=anggota&tipe=master-anggota&pesan=' . $result["message"], "/admin");
-        } else {
-            Responses::Redirect('?page=anggota&tipe=master-anggota&pesan=' . $result["message"], "/admin");
+            return Responses::Redirect('?page=anggota&tipe=master-anggota&pesan=' . $result["message"], "/admin");
+        } catch (Exception $e) {
+            return Responses::Redirect('?page=anggota&tipe=master-anggota&pesan=' . $e->getMessage(), "/admin");
         }
     }
 
     function update()
     {
-        $id = $_POST["id"];
-        $name = $_POST["nama"];
-        $alamat = $_POST["alamat"];
-        $tgl_lahir = $_POST["tgl_lahir"];
-        $no_hp = $_POST["no_hp"];
-        $role = $_POST["role"];
-        $status = $_POST["status"];
+        try {
+            $id = $_POST["id"];
+            $name = $_POST["nama"];
+            $alamat = $_POST["alamat"];
+            $tgl_lahir = $_POST["tgl_lahir"];
+            $no_hp = $_POST["no_hp"];
+            $role = $_POST["role"];
+            $status = $_POST["status"];
 
-        if (
-            empty($name) ||
-            empty($alamat) ||
-            empty($no_hp) ||
-            empty($tgl_lahir) ||
-            empty($status)
-        ) {
-            Responses::Redirect("?page=anggota&tipe=master-anggota&pesan=Isi tidak lengkap", "/admin");
-        }
+            $result = $this->user_service->updateUser($id, $name, $tgl_lahir, $no_hp, $alamat, $role, $status);
 
-        $result = $this->user_service->updateUser($id, $name, $tgl_lahir, $no_hp, $alamat, $role, $status);
-
-        if ($result["status"]) {
-            Responses::Redirect("?page=anggota&tipe=master-anggota&pesan=" .  $result["message"], "/admin");
-        } else {
-            Responses::Redirect("?page=anggota&tipe=master-anggota&pesan=" . $result["message"], "/admin");
+            return Responses::Redirect("?page=anggota&tipe=master-anggota&pesan=" .  $result["message"], "/admin");
+        } catch (Exception $e) {
+            return Responses::Redirect("?page=anggota&tipe=master-anggota&pesan=" . $e->getMessage(), "/admin");
         }
     }
 
     function updatePassword()
     {
-        $new = $_POST["new"];
-        $confirm = $_POST["confirm"];
-        $current = $_POST["current"];
-        $id = $_SESSION["id"];
+        try {
+            $new = $_POST["new"];
+            $confirm = $_POST["confirm"];
+            $current = $_POST["current"];
+            $id = $_SESSION["id"];
 
-        if (trim($new) != trim($confirm)) {
-            Responses::Redirect("?page=setelan&tipe=ubah-password&pesan=Sandi tidak sama", "/admin");
-        }
+            if (trim($new) != trim($confirm)) {
+                throw new Exception("Sandi tidak sama");
+            }
 
-        $result = $this->user_service->updatePassword($id, $current, $new);
+            $this->user_service->updatePassword($id, $current, $new);
 
-        if ($result["status"]) {
-            Responses::Redirect("?page=setelan&tipe=ubah-password&pesan=Sandi berhasil di ubah", "/admin");
-        } else {
-            Responses::Redirect("?page=setelan&tipe=ubah-password&pesan=" . $result["message"], "/admin");
+            return Responses::Redirect("?page=setelan&tipe=ubah-password&pesan=Sandi berhasil di ubah", "/admin");
+        } catch (Exception $e) {
+            return Responses::Redirect("?page=setelan&tipe=ubah-password&pesan=" . $e->getMessage(), "/admin");
         }
     }
 
-    function getUserById(){
-        $id = $_GET["id"];
+    function getUserById()
+    {
+        try {
+            $id = $_GET["id"];
 
-        if(empty($id)){
-            Responses::Redirect("?page=profile", "/admin");
-        }
+            $result = $this->user_service->getUserById($id);
 
-        $result = $this->user_service->getUserById($id);
-
-        if($result["status"]){
             return $result;
-        } else {
-            Responses::Redirect("?page=profile&pesan=" . $result["message"], "/admin");
+        } catch (Exception $e) {
+            return Responses::Redirect("?page=profile&pesan=" . $e->getMessage(), "/admin");
         }
     }
 
-    function updateProfileUser(){
+    function updateProfileUser()
+    {
 
-        $id = $_SESSION["id"];
-        $name = $_POST["nama"];
-        $alamat = $_POST["alamat"];
-        $tgl_lahir = $_POST["tgl_lahir"];
-        $no_hp = $_POST["no_hp"];
-        
-        $result = $this->user_service->updateProfileUser($id, $name, $no_hp, $tgl_lahir, $alamat);
+        try {
+            $id = $_SESSION["id"];
+            $name = $_POST["nama"];
+            $alamat = $_POST["alamat"];
+            $tgl_lahir = $_POST["tgl_lahir"];
+            $no_hp = $_POST["no_hp"];
 
-       
-        if ($result["status"]) {
-            Responses::Redirect("?page=setelan&tipe=ubah-profile&pesan=" . $result["message"], "/admin");
-        } else {
-            Responses::Redirect("?page=setelan&tipe=ubah-profile&pesan=" . $result["message"], "/admin");
+            $result = $this->user_service->updateProfileUser($id, $name, $no_hp, $tgl_lahir, $alamat);
+
+            return Responses::Redirect("?page=setelan&tipe=ubah-profile&pesan=" . $result["message"], "/admin");
+        } catch (Exception $e) {
+            return Responses::Redirect("?page=setelan&tipe=ubah-profile&pesan=" . $e->getMessage(), "/admin");
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tugas\UkmProject\app\controller;
 
+use Exception;
 use Tugas\UkmProject\app\Database;
 use Tugas\UkmProject\app\models\UserModel;
 use Tugas\UkmProject\app\models\NewsModel;
@@ -28,22 +29,26 @@ class AdminController
 
     function adminPanel()
     {
-        $offset = isset($_GET["offset"]) ? $_GET["offset"] : 1;
+        try {
+            $offset = isset($_GET["offset"]) ? $_GET["offset"] : 1;
 
-        $users = $this->user_service->getAllUser($offset)["data"];
+            $users = $this->user_service->getAllUser($offset)["data"];
 
-        $dash = $this->user_service->dashbord()["data"];
+            $dash = $this->user_service->dashbord()["data"];
 
-        $newses = $this->news_service->getAll($offset)["data"];
+            $newses = $this->news_service->getAll($offset)["data"];
 
-        $roles = $this->role_service->getAll($offset)["data"];
+            $roles = $this->role_service->getAll($offset)["data"];
 
-        $roles_select = $this->role_service->getSelect()["data"];
+            $roles_select = $this->role_service->getSelect()["data"];
 
-        $profile = $this->profile_service->getById(1)["data"];
+            $profile = $this->profile_service->getById(1)["data"];
 
-        $current_user = $this->user_service->getUserById($_SESSION["id"])["data"];
+            $current_user = $this->user_service->getUserById($_SESSION["id"])["data"];
 
-        return include __DIR__ . "/../../../views/component/admin/index.php";
+            return include __DIR__ . "/../../../views/component/admin/index.php";
+        } catch (Exception $e) {
+            return Responses::ErrorPage(500, "Internal server error");
+        }
     }
 }

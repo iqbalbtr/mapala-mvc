@@ -2,9 +2,11 @@
 
 namespace Tugas\UkmProject\app\controller;
 
+use Exception;
 use Tugas\UkmProject\app\Database;
 use Tugas\UkmProject\app\models\NewsModel;
 use Tugas\UkmProject\app\models\ProfileModel;
+use Tugas\UkmProject\app\Responses;
 
 class HomeController {
 
@@ -19,11 +21,14 @@ class HomeController {
     }
 
     function index(){
-
-        $profile = $this->profile_service->getById(1)["data"];
-        $newses = $this->berita_service->newsHome()["data"];
-
-        include __DIR__ . "/../../../views/component/home/index.php";
+        try{
+            $profile = $this->profile_service->getById(1)["data"];
+            $newses = $this->berita_service->newsHome()["data"];
+    
+            include __DIR__ . "/../../../views/component/home/index.php";
+        } catch (Exception $e){
+            return Responses::ErrorPage(500, "Internal Server error");
+        }
     }
     
 }

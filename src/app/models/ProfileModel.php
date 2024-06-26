@@ -2,6 +2,7 @@
 
 namespace Tugas\UkmProject\app\models;
 
+use Exception;
 use mysqli;
 use Tugas\UkmProject\app\Responses;
 
@@ -30,7 +31,7 @@ class ProfileModel
         if ($stmt->execute()) {
             return Responses::Res(true, "Berhasil mengubah profile");
         } else {
-            return Responses::Res(false, "Gagal mengubah profile");
+            throw new Exception("Gagal mengubah profile");
         }
     }
 
@@ -41,7 +42,7 @@ class ProfileModel
         $result = $this->db->query("SELECT * FROM tb_profile WHERE id=$id");
 
         if ($result->num_rows <= 0) {
-            return Responses::Res(false, "Profile tidak ditemukan");
+            throw new Exception("Profile tidak ditemukan");
         }
 
         return Responses::Res(true, "", $result->fetch_assoc());
